@@ -1,0 +1,15 @@
+repository:
+  allow_merge_commit: false
+  allow_rebase_merge: true
+  allow_squash_merge: false
+  default_branch: main
+  delete_branch_on_merge: true
+  description: Paisano's TUI/CLI companion
+  has_downloads: false
+  has_issues: true
+  has_projects: false
+  has_wiki: false
+  homepage: https://paisano-nix.github.io/tui
+  name: tui
+  private: false
+  topics: nix, nix-flakes, flake, ux, tui, cli

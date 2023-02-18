@@ -1,0 +1,12 @@
+.std
+result
+
+# nixago: ignore-linked-files
+adrgen.config.yml
+lefthook.yml
+.editorconfig
+.conform.yaml
+treefmt.toml
+
+# nixago-auto-created: mdbook-build-folder
+docs/build
