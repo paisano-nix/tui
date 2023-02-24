@@ -52,7 +52,7 @@ func getNix() (string, error) {
 	return nix, nil
 }
 
-func getCurrentSystem() ([]byte, error) {
+func getCurrentSystem() (*string, error) {
 	// detect the current system
 	nix, err := getNix()
 	if err != nil {
@@ -65,7 +65,8 @@ func getCurrentSystem() ([]byte, error) {
 		}
 		return nil, err
 	}
-	return currentSystem, nil
+	currentSystemStr := string(currentSystem)
+	return &currentSystemStr, nil
 }
 
 func GetCellsFrom() (string, error) {
@@ -95,11 +96,16 @@ func getInitEvalCmdArgs() (string, []string, error) {
 	}
 
 	return nix, append(
-		flakeEvalJson, fmt.Sprintf(flakeInitFragment, ".", currentSystem)), nil
+		flakeEvalJson, fmt.Sprintf(flakeInitFragment, ".", *currentSystem)), nil
 }
 
-func GetActionEvalCmdArgs(c, o, t, a string) (string, []string, error) {
+func GetActionEvalCmdArgs(c, o, t, a string, system *string) (string, []string, error) {
 	nix, err := getNix()
+	if err != nil {
+		return "", nil, err
+	}
+
+	_, _, _, actionPath, err := env.SetEnv()
 	if err != nil {
 		return "", nil, err
 	}
@@ -108,12 +114,30 @@ func GetActionEvalCmdArgs(c, o, t, a string) (string, []string, error) {
 	if err != nil {
 		return "", nil, err
 	}
-	_, _, _, actionPath, err := env.SetEnv()
-	if err != nil {
-		return "", nil, err
+
+	if system != nil {
+		// if we specify the current system it could be used, in theory,
+		// as a general hack to pass the impure flag, but we only use
+		// the impure flag as a transport for the very specific use case
+		// of conveying the current system to the action evaluation
+		// as an action is always run on the local (i.e. "current") system
+		// therefore, close this loophole and error if not for the impure flag
+		// it would otherwise be and is intended to be a no-op
+		// systemVal := *system
+		if *system == *currentSystem {
+			return "", nil, fmt.Errorf("set the --for flag to a different system than the current one ('%s')", *currentSystem)
+		}
+		// if system is set, the impure flag provides a "hack" so that we
+		// can transport this information to the action evaluation without
+		// incurring in a prohibitively complex (m*n) data structure in
+		// which we would have to account for _all_ combinations of current
+		// and build system
+		return nix, append(
+			flakeBuild(actionPath), "--impure", fmt.Sprintf(flakeActionsFragment, ".", *system, c, o, t, a)), nil
 	}
+
 	return nix, append(
-		flakeBuild(actionPath), fmt.Sprintf(flakeActionsFragment, ".", currentSystem, c, o, t, a)), nil
+		flakeBuild(actionPath), fmt.Sprintf(flakeActionsFragment, ".", *currentSystem, c, o, t, a)), nil
 }
 
 func LoadFlakeCmd() (*cache.Cache, *cache.ActionID, *exec.Cmd, *bytes.Buffer, error) {

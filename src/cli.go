@@ -25,6 +25,8 @@ type Spec struct {
 
 var re = regroup.MustCompile(`^//(?P<cell>[^/]+)/(?P<block>[^/]+)/(?P<target>.+):(?P<action>[^:]+)`)
 
+var forSystem string
+
 var rootCmd = &cobra.Command{
 	Use:                   "std //[cell]/[block]/[target]:[action] [args...]",
 	DisableFlagsInUseLine: true,
@@ -46,7 +48,7 @@ var rootCmd = &cobra.Command{
 		if err := re.MatchToTarget(args[0], s); err != nil {
 			return err
 		}
-		nix, nixargs, err := flake.GetActionEvalCmdArgs(s.Cell, s.Block, s.Target, s.Action)
+		nix, nixargs, err := flake.GetActionEvalCmdArgs(s.Cell, s.Block, s.Target, s.Action, &forSystem)
 		if err != nil {
 			// TODO: remove non relevant nix fragment search paths from error msg
 			return err
@@ -152,6 +154,7 @@ func ExecuteCli() {
 }
 
 func init() {
+	rootCmd.Flags().StringVar(&forSystem, "for", "", "system, for which the target will be built (e.g. 'x86_64-linux')")
 	rootCmd.AddCommand(reCacheCmd)
 	rootCmd.AddCommand(listCmd)
 	rootCmd.AddCommand(checkCmd)
@@ -181,7 +184,7 @@ func init() {
 							values = append(
 								values,
 								root.ActionArg(ci, oi, ti, ai),
-								fmt.Sprintf("%s: %s", a.Name, t.Description),
+								fmt.Sprintf("%s: %s", a.Name, t.Description()),
 							)
 						}
 					}
