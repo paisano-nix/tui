@@ -176,6 +176,7 @@ func (m *Tui) GetActionCmd(i *ActionItem) ([]string, tea.Msg) {
 		i.r.BlockName(i.CellIdx, i.BlockIdx, i.TargetIdx),
 		i.r.TargetName(i.CellIdx, i.BlockIdx, i.TargetIdx),
 		i.r.ActionTitle(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
+		nil, // unlike in the CLI, we don't implement to specifiy system in the TUI
 	)
 	if err != nil {
 		return nil, cellLoadingFatalErrMsg{err}
