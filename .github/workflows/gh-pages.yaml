@@ -18,7 +18,7 @@ jobs:
             experimental-features = nix-command flakes
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
-      - run: nix develop .#mdbook -c mdbook build
+      - run: nix develop --no-write-lock-file ./docs#mdbook -c mdbook build
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v1.0.7

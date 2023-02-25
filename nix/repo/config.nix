@@ -131,9 +131,13 @@ A: (1) dotfile proliferation
   # Tool Homepage: https://rust-lang.github.io/mdBook/
   mdbook = {
     # add preprocessor packages here
-    packages = [
-      inputs.nixpkgs.mdbook-linkcheck
-    ];
+    packages =
+      [
+        inputs.nixpkgs.mdbook-linkcheck
+      ]
+      ++ inputs.nixpkgs.lib.optionals (inputs ? mdbook-paisano-preprocessor) [
+        inputs.mdbook-paisano-preprocessor.app.package.default
+      ];
     data = {
       # Configuration Reference: https://rust-lang.github.io/mdBook/format/configuration/index.html
       book = {
@@ -144,18 +148,17 @@ A: (1) dotfile proliferation
       };
       build.build-dir = "docs/build";
       preprocessor = {
-        # switch off until the nix build succeeds
-        # paisano-preprocessor = {
-        #   command = "mdbook-paisano-preprocessor";
-        #   assets_version = "0";
-        #   registry = ".#__std.init";
-        #   multi = [
-        #     {
-        #       chapter = "TUI Reference";
-        #       cell = "tui";
-        #     }
-        #   ];
-        # };
+        paisano-preprocessor = {
+          command = "mdbook-paisano-preprocessor";
+          assets_version = "0";
+          registry = ".#__std.init";
+          multi = [
+            {
+              chapter = "TUI Reference";
+              cell = "tui";
+            }
+          ];
+        };
       };
       output = {
         html = {
