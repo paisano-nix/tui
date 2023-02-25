@@ -13,8 +13,12 @@ import (
 	"github.com/paisano-nix/paisano/env"
 )
 
-var buildVersion = "dev"
-var buildCommit = "dirty"
+var (
+	buildVersion = "dev"
+	buildCommit  = "dirty"
+	argv0        = "paisano"
+	project      = "Paisano"
+)
 
 func bashExecve(command []string, cmdArgs []string) error {
 	binary, err := exec.LookPath("bash")

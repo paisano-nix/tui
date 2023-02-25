@@ -48,7 +48,7 @@ They conveniently also generate config files in their startup hook.
       ++ inputs.nixpkgs.lib.optionals inputs.nixpkgs.stdenv.isLinux [
         {
           package = inputs.nixpkgs.golangci-lint;
-          category = "cli-dev";
+          category = "dev";
         }
       ];
   };

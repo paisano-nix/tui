@@ -35,8 +35,8 @@ const (
 	Loading
 )
 
-const (
-	cmdTemplate = "std %s:%s"
+var (
+	cmdTemplate = func(target, action string) string { return fmt.Sprintf("%[1]s %[2]s:%[3]s", argv0, target, action) }
 )
 
 func (s Focus) String() string {
@@ -109,9 +109,9 @@ func (m *Tui) LoadTargets() tea.Cmd {
 	// Make list of actions
 	items := make([]list.Item, numItems)
 	for ci, c := range m.r.Cells {
-		for oi, o := range c.Blocks {
-			for ti, _ := range o.Targets {
-				items[counter] = &TargetItem{m.r, ci, oi, ti}
+		for bi, b := range c.Blocks {
+			for ti := range b.Targets {
+				items[counter] = &TargetItem{m.r, ci, bi, ti}
 				counter += 1
 			}
 		}
@@ -138,15 +138,12 @@ func (m *Tui) LoadActions(i *TargetItem) tea.Cmd {
 func (m *Tui) SetTitle() {
 
 	if m.Right.SelectedItem() != nil {
-		m.Title = fmt.Sprintf(
-			cmdTemplate,
+		m.Title = cmdTemplate(
 			m.Left.SelectedItem().(*TargetItem).Title(),
 			m.Right.SelectedItem().(*ActionItem).Title(),
 		)
 	} else {
-		m.Title = lipgloss.NewStyle().Faint(true).Render(fmt.Sprintf(
-			cmdTemplate, m.Left.SelectedItem().(*TargetItem).Title(), "n/a",
-		))
+		m.Title = lipgloss.NewStyle().Faint(true).Render(cmdTemplate(m.Left.SelectedItem().(*TargetItem).Title(), "n/a"))
 	}
 }
 
@@ -310,8 +307,7 @@ func (m *Tui) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 		case m.Focus == Right && key.Matches(msg, actionKeys.Copy):
 			if _, ok := m.Right.SelectedItem().(*ActionItem); ok {
-				osc52.Copy(fmt.Sprintf(
-					cmdTemplate,
+				osc52.Copy(cmdTemplate(
 					m.Left.SelectedItem().(*TargetItem).Title(),
 					m.Right.SelectedItem().(*ActionItem).Title(),
 				))
@@ -561,7 +557,7 @@ func NewActions() Actions {
 	actionDelegateKeys := keys.NewActionDelegateKeyMap()
 	delegate := newActionDelegate(actionDelegateKeys)
 	actionList := list.New([]list.Item{}, delegate, 0, 0)
-	actionList.Title = fmt.Sprintf("Actions")
+	actionList.Title = "Actions"
 	actionList.KeyMap = keys.DefaultListKeyMap()
 	actionList.SetShowPagination(false)
 	actionList.SetShowHelp(false)

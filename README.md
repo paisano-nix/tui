@@ -1,15 +1,28 @@
-# Paisano TUI
+# The `paisano` TUI / CLI
 
-<!-- Remove when done
+## Usage
 
-## Adatpt this template
+- Install Paisano: `nix profile install github:paisano-nix/tui`
+- Set up autocompletion (optional): `paisano _carapace [SHELL]` &mdash; see [carapace docs][carapace-docs]
+- Enter a Paisano-based repository.
+- Run `paisano` or `paisano list` and profit ✨!
 
-See where to change things:
+[carapace-docs]: https://rsteube.github.io/carapace/carapace/gen/hiddenSubcommand.html
 
-```console
-grep -r --include=\*.nix 'CONFIGURE-ME' .
+## Branding
+
+To change the branding of this binary you can set these variables via `-X` compile flag:
+
 ```
--->
+main.buildVersion | default: dev
+main.buildCommit  | default: dirty
+main.argv0        | default: paisano
+main.project      | default: Paisano
+flake.registry    | default: __std   # temp kept, mainly for `std-action`
+env.dotdir        | default: .std    # temp kept, for not rewriting many .gitignore
+```
+
+Example: `-X main.argv0=hive -X main.Project=Hive`
 
 ## Contributing
 

@@ -12,6 +12,10 @@ import (
 	"github.com/paisano-nix/paisano/env"
 )
 
+var (
+	registry = "__std" // keep for now for historic reasons
+)
+
 type outt struct {
 	drvPath string            `json:"drvPath"`
 	outputs map[string]string `json:"outputs"`
@@ -20,10 +24,15 @@ type outt struct {
 var (
 	currentSystemArgs      = []string{"eval", "--raw", "--impure", "--expr", "builtins.currentSystem"}
 	cellsFromArgs          = []string{"eval", "--raw"}
-	flakeCellsFromFragment = "%s#__std.cellsFrom"
-	flakeInitFragment      = "%s#__std.init.%s"
-	flakeActionsFragment   = "%s#__std.actions.%s.%s.%s.%s.%s"
-	flakeEvalJson          = []string{
+	flakeRegistry          = func(flake string) string { return fmt.Sprintf("%[2]s#%[1]s", registry, flake) }
+	flakeCellsFromFragment = func(flake string) string { return fmt.Sprintf("%[1]s.cellsFrom", flakeRegistry(flake)) }
+	flakeInitFragment      = func(flake, system string) string {
+		return fmt.Sprintf("%[1]s.init.%[2]s", flakeRegistry(flake), system)
+	}
+	flakeActionsFragment = func(flake, system, c, b, t, a string) string {
+		return fmt.Sprintf("%[1]s.actions.%[2]s.%[3]s.%[4]s.%[5]s.%[6]s", flakeRegistry(flake), system, c, b, t, a)
+	}
+	flakeEvalJson = []string{
 		"eval",
 		"--json",
 		"--no-update-lock-file",
@@ -47,7 +56,7 @@ var (
 func getNix() (string, error) {
 	nix, err := exec.LookPath("nix")
 	if err != nil {
-		return "", errors.New("You need to install 'nix' in order to use 'std'")
+		return "", errors.New("You need to install 'nix' in order to use this tool")
 	}
 	return nix, nil
 }
@@ -74,7 +83,7 @@ func GetCellsFrom() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	cellsFrom, err := exec.Command(nix, append(cellsFromArgs, fmt.Sprintf(flakeCellsFromFragment, "."))...).Output()
+	cellsFrom, err := exec.Command(nix, append(cellsFromArgs, flakeCellsFromFragment("."))...).Output()
 	if err != nil {
 		if exitErr, ok := err.(*exec.ExitError); ok {
 			return "", fmt.Errorf("%w, stderr:\n%s", exitErr, exitErr.Stderr)
@@ -96,10 +105,10 @@ func getInitEvalCmdArgs() (string, []string, error) {
 	}
 
 	return nix, append(
-		flakeEvalJson, fmt.Sprintf(flakeInitFragment, ".", *currentSystem)), nil
+		flakeEvalJson, flakeInitFragment(".", *currentSystem)), nil
 }
 
-func GetActionEvalCmdArgs(c, o, t, a string, system *string) (string, []string, error) {
+func GetActionEvalCmdArgs(c, b, t, a string, system *string) (string, []string, error) {
 	nix, err := getNix()
 	if err != nil {
 		return "", nil, err
@@ -133,11 +142,11 @@ func GetActionEvalCmdArgs(c, o, t, a string, system *string) (string, []string, 
 		// which we would have to account for _all_ combinations of current
 		// and build system
 		return nix, append(
-			flakeBuild(actionPath), "--impure", fmt.Sprintf(flakeActionsFragment, ".", *system, c, o, t, a)), nil
+			flakeBuild(actionPath), "--impure", flakeActionsFragment(".", *system, c, b, t, a)), nil
 	}
 
 	return nix, append(
-		flakeBuild(actionPath), fmt.Sprintf(flakeActionsFragment, ".", *currentSystem, c, o, t, a)), nil
+		flakeBuild(actionPath), flakeActionsFragment(".", *currentSystem, c, b, t, a)), nil
 }
 
 func LoadFlakeCmd() (*cache.Cache, *cache.ActionID, *exec.Cmd, *bytes.Buffer, error) {
@@ -151,7 +160,7 @@ func LoadFlakeCmd() (*cache.Cache, *cache.ActionID, *exec.Cmd, *bytes.Buffer, er
 		return nil, nil, nil, nil, err
 	}
 
-	// load the std metadata from the flake
+	// load the paisano metadata from the flake
 	buf := new(bytes.Buffer)
 	cmd := exec.Command(nix, args...)
 	cmd.Stdin = devNull

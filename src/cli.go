@@ -28,14 +28,18 @@ var re = regroup.MustCompile(`^//(?P<cell>[^/]+)/(?P<block>[^/]+)/(?P<target>.+)
 var forSystem string
 
 var rootCmd = &cobra.Command{
-	Use:                   "std //[cell]/[block]/[target]:[action] [args...]",
+	Use:                   fmt.Sprintf("%[1]s //[cell]/[block]/[target]:[action] [args...]", argv0),
 	DisableFlagsInUseLine: true,
 	Version:               fmt.Sprintf("%s (%s)", buildVersion, buildCommit),
-	Short:                 "std is the CLI / TUI companion for Standard",
-	Long: `std is the CLI / TUI companion for Standard.
+	Short:                 fmt.Sprintf("%[1]s is the CLI / TUI companion for %[2]s", argv0, project),
+	Long: fmt.Sprintf(`%[1]s is the CLI / TUI companion for %[2]s.
 
 - Invoke without any arguments to start the TUI.
-- Invoke with a target spec and action to run a known target's action directly.`,
+- Invoke with a target spec and action to run a known target's action directly.
+
+Enable autocompletion via '%[1]s _carapace <shell>'.
+For more instructions, see: https://rsteube.github.io/carapace/carapace/gen/hiddenSubcommand.html
+`, argv0, project),
 	Args: func(cmd *cobra.Command, args []string) error {
 		s := &Spec{}
 		if err := re.MatchToTarget(args[0], s); err != nil {
@@ -135,8 +139,7 @@ Also loads the CLI cache, if no cache is found. Reads the cache, otherwise.`,
 			for _, o := range c.Blocks {
 				for _, t := range o.Targets {
 					for _, a := range t.Actions {
-						fmt.Fprintln(w, fmt.Sprintf(
-							"//%s/%s/%s:%s\t--\t%s:  %s", c.Name, o.Name, t.Name, a.Name, t.Description(), a.Description()))
+						fmt.Fprintf(w, "//%s/%s/%s:%s\t--\t%s:  %s\n", c.Name, o.Name, t.Name, a.Name, t.Description(), a.Description())
 					}
 				}
 			}
@@ -174,16 +177,16 @@ func init() {
 					return carapace.ActionMessage(fmt.Sprintf("%v\n", err))
 				}
 			} else {
-				return carapace.ActionMessage(fmt.Sprint("No completion cache: please initialize by running 'std re-cache'."))
+				return carapace.ActionMessage(fmt.Sprintf("No completion cache: please initialize by running '%[1]s re-cache'.", argv0))
 			}
 			var values = []string{}
 			for ci, c := range root.Cells {
-				for oi, o := range c.Blocks {
-					for ti, t := range o.Targets {
+				for bi, b := range c.Blocks {
+					for ti, t := range b.Targets {
 						for ai, a := range t.Actions {
 							values = append(
 								values,
-								root.ActionArg(ci, oi, ti, ai),
+								root.ActionArg(ci, bi, ti, ai),
 								fmt.Sprintf("%s: %s", a.Name, t.Description()),
 							)
 						}

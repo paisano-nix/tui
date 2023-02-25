@@ -78,13 +78,13 @@ type renderTargetMarkdownMsg struct {
 	msg tea.Msg
 }
 
-func (m *ReadmeModel) LoadReadme(d *data.Root, ci, oi, ti int) {
-	m.Cell = d.CellName(ci, oi, ti)
-	m.CellHelp.Viewport.SetContent(d.CellHelp(ci, oi, ti))
-	m.Block = d.BlockName(ci, oi, ti)
-	m.BlockHelp.Viewport.SetContent(d.BlockHelp(ci, oi, ti))
-	m.Target = d.TargetName(ci, oi, ti)
-	m.TargetHelp.Viewport.SetContent(d.TargetHelp(ci, oi, ti))
+func (m *ReadmeModel) LoadReadme(d *data.Root, ci, bi, ti int) {
+	m.Cell = d.CellName(ci, bi, ti)
+	m.CellHelp.Viewport.SetContent(d.CellHelp(ci, bi, ti))
+	m.Block = d.BlockName(ci, bi, ti)
+	m.BlockHelp.Viewport.SetContent(d.BlockHelp(ci, bi, ti))
+	m.Target = d.TargetName(ci, bi, ti)
+	m.TargetHelp.Viewport.SetContent(d.TargetHelp(ci, bi, ti))
 }
 
 func NewReadme() *ReadmeModel {
@@ -108,38 +108,38 @@ func (m *ReadmeModel) Init() tea.Cmd {
 	return nil
 }
 
-func (m *ReadmeModel) RenderMarkdown(d *data.Root, ci, oi, ti int) tea.Cmd {
+func (m *ReadmeModel) RenderMarkdown(d *data.Root, ci, bi, ti int) tea.Cmd {
 	var (
 		cmds []tea.Cmd
 		cmd  tea.Cmd
 	)
-	m.LoadReadme(d, ci, oi, ti)
+	m.LoadReadme(d, ci, bi, ti)
 	m.TargetHelp.SetIsActive(true)
-	if d.HasCellHelp(ci, oi, ti) {
+	if d.HasCellHelp(ci, bi, ti) {
 		cmd = func() tea.Msg {
 			return renderCellMarkdownMsg{
 				m.CellHelp.SetFileName(
-					d.CellHelp(ci, oi, ti),
+					d.CellHelp(ci, bi, ti),
 				)(),
 			}
 		}
 		cmds = append(cmds, cmd)
 	}
-	if d.HasBlockHelp(ci, oi, ti) {
+	if d.HasBlockHelp(ci, bi, ti) {
 		cmd = func() tea.Msg {
 			return renderBlockMarkdownMsg{
 				m.BlockHelp.SetFileName(
-					d.BlockHelp(ci, oi, ti),
+					d.BlockHelp(ci, bi, ti),
 				)(),
 			}
 		}
 		cmds = append(cmds, cmd)
 	}
-	if d.HasTargetHelp(ci, oi, ti) {
+	if d.HasTargetHelp(ci, bi, ti) {
 		cmd = func() tea.Msg {
 			return renderTargetMarkdownMsg{
 				m.TargetHelp.SetFileName(
-					d.TargetHelp(ci, oi, ti),
+					d.TargetHelp(ci, bi, ti),
 				)(),
 			}
 		}

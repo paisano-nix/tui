@@ -66,79 +66,79 @@ func (t Target) Description() string {
 	}
 }
 
-func (r *Root) Select(ci, oi, ti int) (Cell, Block, Target) {
+func (r *Root) Select(ci, bi, ti int) (Cell, Block, Target) {
 	var (
 		c = r.Cells[ci]
-		o = c.Blocks[oi]
-		t = o.Targets[ti]
+		b = c.Blocks[bi]
+		t = b.Targets[ti]
 	)
-	return c, o, t
+	return c, b, t
 }
 
-func (r *Root) ActionArg(ci, oi, ti, ai int) string {
-	c, o, t := r.Select(ci, oi, ti)
+func (r *Root) ActionArg(ci, bi, ti, ai int) string {
+	c, b, t := r.Select(ci, bi, ti)
 	a := t.Actions[ai]
-	return fmt.Sprintf(actionTemplate, c.Name, o.Name, t.Name, a.Name)
+	return fmt.Sprintf(actionTemplate, c.Name, b.Name, t.Name, a.Name)
 }
 
-func (r *Root) ActionTitle(ci, oi, ti, ai int) string {
-	_, _, t := r.Select(ci, oi, ti)
+func (r *Root) ActionTitle(ci, bi, ti, ai int) string {
+	_, _, t := r.Select(ci, bi, ti)
 	a := t.Actions[ai]
 	return a.Title()
 }
 
-func (r *Root) ActionDescription(ci, oi, ti, ai int) string {
-	_, _, t := r.Select(ci, oi, ti)
+func (r *Root) ActionDescription(ci, bi, ti, ai int) string {
+	_, _, t := r.Select(ci, bi, ti)
 	a := t.Actions[ai]
 	return a.Description()
 }
 
-func (r *Root) TargetTitle(ci, oi, ti int) string {
-	c, o, t := r.Select(ci, oi, ti)
-	return fmt.Sprintf(targetTemplate, c.Name, o.Name, t.Name)
+func (r *Root) TargetTitle(ci, bi, ti int) string {
+	c, b, t := r.Select(ci, bi, ti)
+	return fmt.Sprintf(targetTemplate, c.Name, b.Name, t.Name)
 }
 
-func (r *Root) TargetDescription(ci, oi, ti int) string {
-	_, _, t := r.Select(ci, oi, ti)
+func (r *Root) TargetDescription(ci, bi, ti int) string {
+	_, _, t := r.Select(ci, bi, ti)
 	return t.Description()
 }
-func (r *Root) Cell(ci, oi, ti int) Cell       { c, _, _ := r.Select(ci, oi, ti); return c }
-func (r *Root) CellName(ci, oi, ti int) string { return r.Cell(ci, oi, ti).Name }
-func (r *Root) CellHelp(ci, oi, ti int) string {
-	if r.HasCellHelp(ci, oi, ti) {
-		return *r.Cell(ci, oi, ti).Readme
+func (r *Root) Cell(ci, bi, ti int) Cell       { c, _, _ := r.Select(ci, bi, ti); return c }
+func (r *Root) CellName(ci, bi, ti int) string { return r.Cell(ci, bi, ti).Name }
+func (r *Root) CellHelp(ci, bi, ti int) string {
+	if r.HasCellHelp(ci, bi, ti) {
+		return *r.Cell(ci, bi, ti).Readme
 	} else {
-		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/Readme.md", cellsFrom.Value(), r.CellName(ci, oi, ti)))
+		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/Readme.md", cellsFrom.Value(), r.CellName(ci, bi, ti)))
 	}
 }
-func (r *Root) HasCellHelp(ci, oi, ti int) bool {
-	c := r.Cell(ci, oi, ti)
+func (r *Root) HasCellHelp(ci, bi, ti int) bool {
+	c := r.Cell(ci, bi, ti)
 	return c.Readme != nil
 }
-func (r *Root) Block(ci, oi, ti int) Block      { _, o, _ := r.Select(ci, oi, ti); return o }
-func (r *Root) BlockName(ci, oi, ti int) string { return r.Block(ci, oi, ti).Name }
-func (r *Root) BlockHelp(ci, oi, ti int) string {
-	if r.HasBlockHelp(ci, oi, ti) {
-		return *r.Block(ci, oi, ti).Readme
+func (r *Root) Block(ci, bi, ti int) Block      { _, o, _ := r.Select(ci, bi, ti); return o }
+func (r *Root) BlockName(ci, bi, ti int) string { return r.Block(ci, bi, ti).Name }
+func (r *Root) BlockHelp(ci, bi, ti int) string {
+	if r.HasBlockHelp(ci, bi, ti) {
+		return *r.Block(ci, bi, ti).Readme
 	} else {
-		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/%s/Readme.md", cellsFrom.Value(), r.CellName(ci, oi, ti), r.BlockName(ci, oi, ti)))
+		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/%s/Readme.md", cellsFrom.Value(), r.CellName(ci, bi, ti), r.BlockName(ci, bi, ti)))
 	}
 }
-func (r *Root) HasBlockHelp(ci, oi, ti int) bool {
-	b := r.Block(ci, oi, ti)
+func (r *Root) HasBlockHelp(ci, bi, ti int) bool {
+	b := r.Block(ci, bi, ti)
 	return b.Readme != nil
 }
-func (r *Root) Target(ci, oi, ti int) Target     { _, _, t := r.Select(ci, oi, ti); return t }
-func (r *Root) TargetName(ci, oi, ti int) string { return r.Target(ci, oi, ti).Name }
-func (r *Root) TargetHelp(ci, oi, ti int) string {
-	if r.HasTargetHelp(ci, oi, ti) {
-		return *r.Target(ci, oi, ti).Readme
+func (r *Root) Target(ci, bi, ti int) Target     { _, _, t := r.Select(ci, bi, ti); return t }
+func (r *Root) TargetName(ci, bi, ti int) string { return r.Target(ci, bi, ti).Name }
+func (r *Root) TargetHelp(ci, bi, ti int) string {
+	if r.HasTargetHelp(ci, bi, ti) {
+		return *r.Target(ci, bi, ti).Readme
 	} else {
-		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/%s/%s.md", cellsFrom.Value(), r.CellName(ci, oi, ti), r.BlockName(ci, oi, ti), r.TargetName(ci, oi, ti)))
+		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/%s/%s.md", cellsFrom.Value(), r.CellName(ci, bi, ti), r.BlockName(ci, bi, ti), r.TargetName(ci, bi, ti)))
 	}
 }
-func (r *Root) HasTargetHelp(ci, oi, ti int) bool {
-	t := r.Target(ci, oi, ti)
+func (r *Root) HasTargetHelp(ci, bi, ti int) bool {
+	t := r.Target(ci, bi, ti)
 	return t.Readme != nil
 }
 

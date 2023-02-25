@@ -8,17 +8,24 @@ import (
 	"strings"
 )
 
+var (
+	dotdir = ".std" // keep for now for history reasons
+)
+
 // PRJ_ROOT is a useful environment contract prototyped by `numtide/devshell`
 // TODO: coordinate with `numtide` about PRJ Base Directory Specification
 const (
-	PRJ_ROOT          = "PRJ_ROOT"
-	PRJ_DATA_DIR      = "PRJ_DATA_DIR"
-	PRJ_CACHE_DIR     = "PRJ_CACHE_DIR"
-	NIX_CONFIG        = "NIX_CONFIG"
-	prjRootGitCmd     = "git rev-parse --show-toplevel"
-	prjDataDirTmpl    = "%s/.std"
-	prjCacheDirTmpl   = "%s/.std/cache"
-	prjLastActionTmpl = "%s/.std/last-action"
+	PRJ_ROOT      = "PRJ_ROOT"
+	PRJ_DATA_DIR  = "PRJ_DATA_DIR"
+	PRJ_CACHE_DIR = "PRJ_CACHE_DIR"
+	NIX_CONFIG    = "NIX_CONFIG"
+	prjRootGitCmd = "git rev-parse --show-toplevel"
+)
+
+var (
+	prjDataDirTmpl    = func(root string) string { return fmt.Sprintf("%[2]s/%[1]s/", dotdir, root) }
+	prjCacheDirTmpl   = func(root string) string { return fmt.Sprintf("%[2]s/%[1]s/cache", dotdir, root) }
+	prjLastActionTmpl = func(root string) string { return fmt.Sprintf("%[2]s/%[1]s/last-action", dotdir, root) }
 )
 
 // extraNixConfig implements quality of life flags for the nix command invocation
@@ -51,12 +58,12 @@ func SetEnv() (string, string, string, string, error) {
 	}
 	prjDataDir, present := os.LookupEnv(PRJ_DATA_DIR)
 	if !present {
-		prjDataDir = fmt.Sprintf(prjDataDirTmpl, prjRoot)
+		prjDataDir = prjDataDirTmpl(prjRoot)
 		os.Setenv(PRJ_DATA_DIR, prjDataDir)
 	}
 	prjCacheDir, present := os.LookupEnv(PRJ_CACHE_DIR)
 	if !present {
-		prjCacheDir = fmt.Sprintf(prjCacheDirTmpl, prjRoot)
+		prjCacheDir = prjCacheDirTmpl(prjRoot)
 		os.Setenv(PRJ_CACHE_DIR, prjCacheDir)
 	}
 	nixConfigEnv, present := os.LookupEnv(NIX_CONFIG)
@@ -65,5 +72,5 @@ func SetEnv() (string, string, string, string, error) {
 	} else {
 		os.Setenv(NIX_CONFIG, fmt.Sprintf("%s\n%s", nixConfigEnv, extraNixConfig))
 	}
-	return prjRoot, prjDataDir, prjCacheDir, fmt.Sprintf(prjLastActionTmpl, prjRoot), nil
+	return prjRoot, prjDataDir, prjCacheDir, prjLastActionTmpl(prjRoot), nil
 }
