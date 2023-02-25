@@ -1,6 +1,6 @@
 # Prelude
 
-- [Introduction](../README.md)
+- [Introduction](introduction.md)
 - [Motivation](motivation.md)
 - [Target Audience](audience.md)
 
