@@ -7,3 +7,4 @@
 # Reference
 
 - [TUI Reference](tui-reference.md)
+- [Rebranding with Nix](rebranding-nix.md)

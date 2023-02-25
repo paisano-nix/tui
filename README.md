@@ -22,7 +22,7 @@ flake.registry    | default: __std   # temp kept, mainly for `std-action`
 env.dotdir        | default: .std    # temp kept, for not rewriting many .gitignore
 ```
 
-Example: `-X main.argv0=hive -X main.Project=Hive`
+Example: `go build -o my-bin-name -ldflags="-X main.argv0=hive -X main.project=Hive"`
 
 ## Contributing
 
@@ -48,6 +48,5 @@ direnv reload
 <sub>You need to be <i>inside</i> the Contribution Environment.</sub>
 
 ```console
-mdbook build
-xdg-open ./docs/build/index.html
+mdbook build -o
 ```
