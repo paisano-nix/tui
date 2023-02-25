@@ -144,17 +144,18 @@ A: (1) dotfile proliferation
       };
       build.build-dir = "docs/build";
       preprocessor = {
-        paisano-preprocessor = {
-          command = "mdbook-paisano-preprocessor";
-          assets_version = "0";
-          registry = ".#__std.init";
-          multi = [
-            {
-              chapter = "TUI Reference";
-              cell = "tui";
-            }
-          ];
-        };
+        # switch off until the nix build succeeds
+        # paisano-preprocessor = {
+        #   command = "mdbook-paisano-preprocessor";
+        #   assets_version = "0";
+        #   registry = ".#__std.init";
+        #   multi = [
+        #     {
+        #       chapter = "TUI Reference";
+        #       cell = "tui";
+        #     }
+        #   ];
+        # };
       };
       output = {
         html = {

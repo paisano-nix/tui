@@ -199,10 +199,12 @@
         ]
       },
       "locked": {
-        "lastModified": 1677298610,
-        "narHash": "sha256-KwImOD1S5f2qfqUYSw957C4uGbarXWFKgK/g3dk8FW0=",
-        "path": "/home/blaggacao/src/github.com/paisano-nix/core",
-        "type": "path"
+        "lastModified": 1677298389,
+        "narHash": "sha256-gNOsmmr3HiNXFaQ+Rc4USFoKksS+6KKZpCTThnnwW6Q=",
+        "owner": "paisano-nix",
+        "repo": "core",
+        "rev": "687683ae1d9028135a43ed1f9cc3954cf55fc689",
+        "type": "github"
       },
       "original": {
         "owner": "paisano-nix",

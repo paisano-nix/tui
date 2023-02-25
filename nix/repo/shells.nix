@@ -4,6 +4,7 @@ This file holds reproducible shells with commands in them.
 They conveniently also generate config files in their startup hook.
 */
 {
+  mdbook = inputs.std.lib.dev.mkShell {nixago = [(inputs.std.lib.cfg.mdbook cell.config.mdbook)];};
   # Tool Homepage: https://numtide.github.io/devshell/
   default = inputs.std.lib.dev.mkShell {
     name = "Paisano TUI";

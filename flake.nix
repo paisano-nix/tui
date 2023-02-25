@@ -22,5 +22,6 @@
     }
     {
       packages = std.harvest self ["tui" "app"];
+      devShells = std.harvest self ["repo" "shells"];
     };
 }
