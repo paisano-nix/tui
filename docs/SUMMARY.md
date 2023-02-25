@@ -1,14 +1,9 @@
 # Prelude
 
-- [Introduction]()
-- [Motivation]()
-- [Target Audience]()
+- [Introduction](../README.md)
+- [Motivation](motivation.md)
+- [Target Audience](audience.md)
 
-# Section 1
+# Reference
 
-- [First Chapter]()
-- [Second Chapter]()
-
-# Section 2
-
-- [Third Chapter]()
+- [TUI Reference](tui-reference.md)

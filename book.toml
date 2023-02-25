@@ -9,7 +9,15 @@ build-dir = "docs/build"
 
 [output]
 [output.html]
+additional-css = ["./mdbook-paisano-preprocessor.css"]
 
 [output.linkcheck]
 
-[preprocessor]
+[preprocessor.paisano-preprocessor]
+assets_version = "0"
+command = "mdbook-paisano-preprocessor"
+registry = ".#__std.init"
+
+[[preprocessor.paisano-preprocessor.multi]]
+cell = "tui"
+chapter = "TUI Reference"

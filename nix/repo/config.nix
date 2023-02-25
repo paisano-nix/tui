@@ -143,9 +143,23 @@ A: (1) dotfile proliferation
         src = "docs";
       };
       build.build-dir = "docs/build";
-      preprocessor = {};
+      preprocessor = {
+        paisano-preprocessor = {
+          command = "mdbook-paisano-preprocessor";
+          assets_version = "0";
+          registry = ".#__std.init";
+          multi = [
+            {
+              chapter = "TUI Reference";
+              cell = "tui";
+            }
+          ];
+        };
+      };
       output = {
-        html = {};
+        html = {
+          additional-css = ["./mdbook-paisano-preprocessor.css"];
+        };
         # Tool Homepage: https://github.com/Michael-F-Bryan/mdbook-linkcheck
         linkcheck = {};
       };
