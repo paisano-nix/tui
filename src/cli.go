@@ -52,7 +52,16 @@ For more instructions, see: https://rsteube.github.io/carapace/carapace/gen/hidd
 		if err := re.MatchToTarget(args[0], s); err != nil {
 			return err
 		}
-		nix, nixargs, err := flake.GetActionEvalCmdArgs(s.Cell, s.Block, s.Target, s.Action, &forSystem)
+		var (
+			nix     string
+			nixargs []string
+			err     error
+		)
+		if forSystem == "" {
+			nix, nixargs, err = flake.GetActionEvalCmdArgs(s.Cell, s.Block, s.Target, s.Action, nil)
+		} else {
+			nix, nixargs, err = flake.GetActionEvalCmdArgs(s.Cell, s.Block, s.Target, s.Action, &forSystem)
+		}
 		if err != nil {
 			// TODO: remove non relevant nix fragment search paths from error msg
 			return err

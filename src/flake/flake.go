@@ -124,7 +124,7 @@ func GetActionEvalCmdArgs(c, b, t, a string, system *string) (string, []string, 
 		return "", nil, err
 	}
 
-	if *system != "" {
+	if system != nil {
 		// if we specify the current system it could be used, in theory,
 		// as a general hack to pass the impure flag, but we only use
 		// the impure flag as a transport for the very specific use case
