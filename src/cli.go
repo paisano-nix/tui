@@ -95,9 +95,9 @@ The TUI does this automatically, but the command completion needs manual initial
 var checkCmd = &cobra.Command{
 	Use:   "check",
 	Short: "Validate the repository.",
-	Long: `Validates that the repository conforms to Standard.
-Returns a non-zero exit code and an error message if the repository is not a valid Standard repository.
-The TUI does this automatically.`,
+	Long: fmt.Sprintf(`Validates that the repository conforms to %[1]s.
+Returns a non-zero exit code and an error message if the repository is not a valid %[1]s repository.
+The TUI does this automatically.`, project),
 	Args: cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		_, _, loadCmd, _, err := flake.LoadFlakeCmd()
@@ -109,7 +109,7 @@ The TUI does this automatically.`,
 		if err := loadCmd.Run(); err != nil {
 			os.Exit(1)
 		}
-		fmt.Println("Valid Standard repository ✓")
+		fmt.Printf("Valid %s repository ✓\n", project)
 
 		return nil
 	},
