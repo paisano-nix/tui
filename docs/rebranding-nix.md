@@ -44,7 +44,6 @@ in {
       "-X main.argv0=${pname}"
       "-X main.project=Standard"
       "-X flake.registry=__std"
-      "-X env.dotdir=.std"
     ];
   };
 }

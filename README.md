@@ -19,7 +19,6 @@ main.buildCommit  | default: dirty
 main.argv0        | default: paisano
 main.project      | default: Paisano
 flake.registry    | default: __std   # temp kept, mainly for `std-action`
-env.dotdir        | default: .std    # temp kept, for not rewriting many .gitignore
 ```
 
 Example: `go build -o my-bin-name -ldflags="-X main.argv0=hive -X main.project=Hive"`

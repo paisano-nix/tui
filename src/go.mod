@@ -11,6 +11,7 @@ require (
 	github.com/google/renameio/v2 v2.0.0
 	github.com/hymkor/go-lazy v0.0.0-20221110163659-3e4759e924f7
 	github.com/knipferrc/teacup v0.0.16
+	github.com/numtide/prj-spec/contrib/go v0.0.0-00010101000000-000000000000
 	github.com/oriser/regroup v0.0.0-20210730155327-fca8d7531263
 	github.com/rogpeppe/go-internal v1.9.0
 	github.com/rsteube/carapace v0.20.5-0.20220527214157-2f37b477ac7c
@@ -18,6 +19,7 @@ require (
 )
 
 require (
+	github.com/adrg/xdg v0.4.0 // indirect
 	github.com/alecthomas/chroma v0.10.0 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
@@ -47,3 +49,5 @@ require (
 	golang.org/x/sys v0.0.0-20220712014510-0a85c31ab51e // indirect
 	golang.org/x/term v0.0.0-20220526004731-065cf7ba2467 // indirect
 )
+
+replace github.com/numtide/prj-spec/contrib/go => github.com/blaggacao/prj-spec/contrib/go v0.0.0-20230409020324-02384856e61e

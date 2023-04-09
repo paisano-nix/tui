@@ -25,10 +25,11 @@ func bashExecve(command []string, cmdArgs []string) error {
 	if err != nil {
 		return err
 	}
-	_, _, _, lastActionPath, err := env.SetEnv()
+	lastActionPath, err := env.GetStateActionPath()
 	if err != nil {
 		return err
 	}
+	env.SetEnv() // PRJ_* + NIX_CONFIG
 	env := os.Environ()
 	args := []string{"bash", "-c", fmt.Sprintf(
 		"%s && %s %s",

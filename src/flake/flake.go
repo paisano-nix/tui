@@ -114,7 +114,7 @@ func GetActionEvalCmdArgs(c, b, t, a string, system *string) (string, []string, 
 		return "", nil, err
 	}
 
-	_, _, _, actionPath, err := env.SetEnv()
+	actionPath, err := env.GetStateActionPath()
 	if err != nil {
 		return "", nil, err
 	}
@@ -167,16 +167,11 @@ func LoadFlakeCmd() (*cache.Cache, *cache.ActionID, *exec.Cmd, *bytes.Buffer, er
 	cmd.Stdout = buf
 
 	// initialize cache
-	_, _, prjCacheDir, _, err := env.SetEnv()
+	metadataCacheDir, err := env.GetProjectMetadataCacheDir()
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}
-	path := prjCacheDir
-	err = os.MkdirAll(path, os.ModePerm)
-	if err != nil {
-		return nil, nil, nil, nil, err
-	}
-	c, err := cache.Open(path)
+	c, err := cache.Open(metadataCacheDir)
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}
