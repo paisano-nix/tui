@@ -92,7 +92,7 @@ type Tui struct {
 	Keys          *keys.AppKeyMap
 	Title         string
 	InspectAction string
-	ExecveCommand []string
+	ExecveCommand *flake.RunActionCmd
 	Spinner       spinner.Model
 	FatalError    error
 	Loaded
@@ -149,13 +149,15 @@ func (m *Tui) SetTitle() {
 
 func (m *Tui) SetInspect() (tea.Model, tea.Cmd) {
 	if i, ok := m.Right.SelectedItem().(*ActionItem); ok {
-		args, msg := m.GetActionCmd(i)
-		if msg != nil {
-			return m, func() tea.Msg { return msg }
+		cmd := flake.RunActionCmd{
+			System: "", // unlike in the CLI, we don't implement to specifiy system in the TUI
+			Cell:   i.r.CellName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+			Block:  i.r.BlockName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+			Target: i.r.TargetName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+			Action: i.r.ActionTitle(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
 		}
-		m.InspectAction = strings.Join(args[:2], " ") +
-			" \\\n  " + strings.Join(args[2:4], " ") +
-			" \\\n  " + strings.Join(args[4:], " \\\n  ")
+		_, sub, args, _ := cmd.Assemble(nil)
+		m.InspectAction = "nix " + sub + " " + strings.Join(args, " \\\n")
 		return m, nil
 	} else {
 		m.InspectAction = ""
@@ -166,20 +168,6 @@ func (m *Tui) SetInspect() (tea.Model, tea.Cmd) {
 type cellLoadedFromCacheMsg struct{ root *data.Root }
 type cellLoadedMsg struct{ root *data.Root }
 type cellLoadingFatalErrMsg struct{ err error }
-
-func (m *Tui) GetActionCmd(i *ActionItem) ([]string, tea.Msg) {
-	nix, args, err := flake.GetActionEvalCmdArgs(
-		i.r.CellName(i.CellIdx, i.BlockIdx, i.TargetIdx),
-		i.r.BlockName(i.CellIdx, i.BlockIdx, i.TargetIdx),
-		i.r.TargetName(i.CellIdx, i.BlockIdx, i.TargetIdx),
-		i.r.ActionTitle(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
-		nil, // unlike in the CLI, we don't implement to specifiy system in the TUI
-	)
-	if err != nil {
-		return nil, cellLoadingFatalErrMsg{err}
-	}
-	return append([]string{nix}, args...), nil
-}
 
 func (m *Tui) Init() tea.Cmd {
 	var cmds []tea.Cmd
@@ -298,11 +286,13 @@ func (m *Tui) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch {
 		case m.Focus == Right && key.Matches(msg, actionKeys.Exec):
 			if i, ok := m.Right.SelectedItem().(*ActionItem); ok {
-				args, msg := m.GetActionCmd(i)
-				if msg != nil {
-					return m, func() tea.Msg { return msg }
+				m.ExecveCommand = &flake.RunActionCmd{
+					System: "", // unlike in the CLI, we don't implement to specifiy system in the TUI
+					Cell:   i.r.CellName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+					Block:  i.r.BlockName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+					Target: i.r.TargetName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+					Action: i.r.ActionTitle(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
 				}
-				m.ExecveCommand = args
 				return m, tea.Quit
 			}
 		case m.Focus == Right && key.Matches(msg, actionKeys.Copy):

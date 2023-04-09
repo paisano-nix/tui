@@ -3,8 +3,6 @@ package data
 import (
 	"fmt"
 
-	"github.com/hymkor/go-lazy"
-
 	"github.com/paisano-nix/paisano/flake"
 )
 
@@ -13,15 +11,6 @@ var (
 	actionTemplate = "//%s/%s/%s:%s"
 	noReadme       = "🥺 No Readme available ...\n\n💡 But hey! You could create one ...\n\n💪 Start with: `$EDITOR %s`\n\n👉 It will also be rendered in the docs!"
 	noDescription  = "🥺 Target has no 'meta.description' attribute"
-	cellsFrom      = lazy.Of[string]{
-		New: func() string {
-			if s, err := flake.GetCellsFrom(); err != nil {
-				return "${cellsFrom}"
-			} else {
-				return s
-			}
-		},
-	}
 )
 
 type Root struct {
@@ -108,7 +97,7 @@ func (r *Root) CellHelp(ci, bi, ti int) string {
 	if r.HasCellHelp(ci, bi, ti) {
 		return *r.Cell(ci, bi, ti).Readme
 	} else {
-		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/Readme.md", cellsFrom.Value(), r.CellName(ci, bi, ti)))
+		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/Readme.md", flake.CellsFrom.Value(), r.CellName(ci, bi, ti)))
 	}
 }
 func (r *Root) HasCellHelp(ci, bi, ti int) bool {
@@ -121,7 +110,7 @@ func (r *Root) BlockHelp(ci, bi, ti int) string {
 	if r.HasBlockHelp(ci, bi, ti) {
 		return *r.Block(ci, bi, ti).Readme
 	} else {
-		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/%s/Readme.md", cellsFrom.Value(), r.CellName(ci, bi, ti), r.BlockName(ci, bi, ti)))
+		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/%s/Readme.md", flake.CellsFrom.Value(), r.CellName(ci, bi, ti), r.BlockName(ci, bi, ti)))
 	}
 }
 func (r *Root) HasBlockHelp(ci, bi, ti int) bool {
@@ -134,7 +123,7 @@ func (r *Root) TargetHelp(ci, bi, ti int) string {
 	if r.HasTargetHelp(ci, bi, ti) {
 		return *r.Target(ci, bi, ti).Readme
 	} else {
-		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/%s/%s.md", cellsFrom.Value(), r.CellName(ci, bi, ti), r.BlockName(ci, bi, ti), r.TargetName(ci, bi, ti)))
+		return fmt.Sprintf(noReadme, fmt.Sprintf("%s/%s/%s/%s.md", flake.CellsFrom.Value(), r.CellName(ci, bi, ti), r.BlockName(ci, bi, ti), r.TargetName(ci, bi, ti)))
 	}
 }
 func (r *Root) HasTargetHelp(ci, bi, ti int) bool {
