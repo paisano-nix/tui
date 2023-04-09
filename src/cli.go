@@ -173,7 +173,7 @@ func init() {
 	carapace.Gen(rootCmd).Standalone()
 	// completes: '//cell/block/target:action'
 	carapace.Gen(rootCmd).PositionalCompletion(
-		carapace.ActionCallback(func(c carapace.Context) carapace.Action {
+		carapace.ActionCallback(func(ctx carapace.Context) carapace.Action {
 			cache, key, _, _, err := flake.LoadFlakeCmd()
 			if err != nil {
 				return carapace.ActionMessage(fmt.Sprintf("%v\n", err))
@@ -196,15 +196,20 @@ func init() {
 							values = append(
 								values,
 								root.ActionArg(ci, bi, ti, ai),
-								fmt.Sprintf("%s: %s", a.Name, t.Description()),
+								a.Description(),
 							)
 						}
+						values = append(
+							values,
+							fmt.Sprintf("%s:", root.TargetTitle(ci, bi, ti)),
+							t.Description(),
+						)
 					}
 				}
 			}
 			return carapace.ActionValuesDescribed(
 				values...,
-			).Invoke(c).ToMultiPartsA("/", ":")
+			).Invoke(ctx).ToMultiPartsA("/", ":")
 		}),
 	)
 }
