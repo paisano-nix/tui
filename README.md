@@ -1,5 +1,7 @@
 # The `paisano` TUI / CLI
 
+The Paisano TUI / CLI is a brandable general purpose command line kit for Flake based projects which fulfill a Paisano layout and importer contract.
+
 ## Usage
 
 - Install Paisano: `nix profile install github:paisano-nix/tui`
