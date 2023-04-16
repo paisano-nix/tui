@@ -9,7 +9,7 @@ import (
 var (
 	targetTemplate = "//%s/%s/%s"
 	actionTemplate = "//%s/%s/%s:%s"
-	noReadme       = "🥺 No Readme available ...\n\n💡 But hey! You could create one ...\n\n💪 Start with: `$EDITOR %s`\n\n👉 It will also be rendered in the docs!"
+	noReadme       = "🥺 No Readme available ...\n\n💡 But hey! You could create one ...\n\n💪 Start with: `$EDITOR %s` (don't forget to commit it!)\n\n👉 It will also be rendered in the docs!"
 	noDescription  = "🥺 Target has no 'meta.description' attribute"
 )
 
