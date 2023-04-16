@@ -17,16 +17,16 @@ in {
 
     src = inputs.self + /src;
 
-    vendorHash = "sha256-2ZVZBZoYKy9PLEgJ0pTXhPc+zKX+2NBIDwxt/qJQdC8=";
+    vendorHash = "sha256-ja0nFWdWqieq8m6cSKAhE1ibeN0fODDCC837jw0eCnE=";
 
     nativeBuildInputs = [nixpkgs.installShellFiles];
 
-    # postInstall = ''
-    #   installShellCompletion --cmd paisano \
-    #     --bash <($out/bin/paisano _carapace bash) \
-    #     --fish <($out/bin/paisano _carapace fish) \
-    #     --zsh <($out/bin/paisano _carapace zsh)
-    # '';
+    postInstall = ''
+      installShellCompletion --cmd paisano \
+        --bash <($out/bin/paisano _carapace bash) \
+        --fish <($out/bin/paisano _carapace fish) \
+        --zsh <($out/bin/paisano _carapace zsh)
+    '';
 
     ldflags = [
       "-s"

@@ -14,8 +14,8 @@ require (
 	github.com/numtide/prj-spec/contrib/go v0.0.0-00010101000000-000000000000
 	github.com/oriser/regroup v0.0.0-20210730155327-fca8d7531263
 	github.com/rogpeppe/go-internal v1.9.0
-	github.com/rsteube/carapace v0.20.5-0.20220527214157-2f37b477ac7c
-	github.com/spf13/cobra v1.4.0
+	github.com/rsteube/carapace v0.36.1
+	github.com/spf13/cobra v1.7.0
 )
 
 require (
@@ -29,7 +29,7 @@ require (
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/hokaccha/go-prettyjson v0.0.0-20211117102719-0474bc63780f // indirect
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.9 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
@@ -48,6 +48,7 @@ require (
 	golang.org/x/net v0.0.0-20220407224826-aac1ed45d8e3 // indirect
 	golang.org/x/sys v0.0.0-20220712014510-0a85c31ab51e // indirect
 	golang.org/x/term v0.0.0-20220526004731-065cf7ba2467 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/numtide/prj-spec/contrib/go => github.com/blaggacao/prj-spec/contrib/go v0.0.0-20230409020324-02384856e61e
+replace github.com/numtide/prj-spec/contrib/go => github.com/blaggacao/prj-spec/contrib/go v0.0.0-20230416215212-d6074c3e1579
