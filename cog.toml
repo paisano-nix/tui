@@ -1,6 +1,7 @@
 post_bump_hooks = [
   "git push",
   "git push origin {{version}}",
+  "echo Go to and post: https://discourse.nixos.org/t/paisano-tui-cli/27351",
   "cog -q changelog --at {{version}}",
 ]
 
