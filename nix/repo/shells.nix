@@ -25,6 +25,10 @@ They conveniently also generate config files in their startup hook.
     commands =
       [
         {
+          category = "release";
+          package = inputs.nixpkgs.cocogitto;
+        }
+        {
           category = "rendering";
           package = inputs.nixpkgs.mdbook;
         }
