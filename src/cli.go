@@ -10,6 +10,7 @@ import (
 	"github.com/oriser/regroup"
 
 	"github.com/rsteube/carapace"
+	"github.com/rsteube/carapace/pkg/style"
 	"github.com/spf13/cobra"
 
 	"github.com/paisano-nix/paisano/data"
@@ -178,28 +179,81 @@ func init() {
 			} else {
 				return carapace.ActionMessage(fmt.Sprintf("No completion cache: please initialize by running '%[1]s re-cache'.", argv0))
 			}
-			var values = []string{}
-			for ci, c := range root.Cells {
-				for bi, b := range c.Blocks {
-					for ti, t := range b.Targets {
-						for ai, a := range t.Actions {
-							values = append(
-								values,
-								root.ActionArg(ci, bi, ti, ai),
+			var cells = []string{}
+			var blocks = map[string][]string{}
+			var targets = map[string]map[string][]string{}
+			var actions = map[string]map[string]map[string][]string{}
+			for _, c := range root.Cells {
+				blocks[c.Name] = []string{}
+				targets[c.Name] = map[string][]string{}
+				actions[c.Name] = map[string]map[string][]string{}
+				cells = append(cells, c.Name, "cell")
+				for _, b := range c.Blocks {
+					targets[c.Name][b.Name] = []string{}
+					actions[c.Name][b.Name] = map[string][]string{}
+					blocks[c.Name] = append(blocks[c.Name], b.Name, "block")
+					for _, t := range b.Targets {
+						actions[c.Name][b.Name][t.Name] = []string{}
+						targets[c.Name][b.Name] = append(targets[c.Name][b.Name], t.Name, t.Description())
+						for _, a := range t.Actions {
+							actions[c.Name][b.Name][t.Name] = append(
+								actions[c.Name][b.Name][t.Name],
+								a.Name,
 								a.Description(),
 							)
 						}
-						values = append(
-							values,
-							fmt.Sprintf("%s:", root.TargetTitle(ci, bi, ti)),
-							t.Description(),
-						)
 					}
 				}
 			}
-			return carapace.ActionValuesDescribed(
-				values...,
-			).Invoke(ctx).ToMultiPartsA("/", ":")
+			return carapace.ActionMultiParts("/", func(c carapace.Context) carapace.Action {
+				switch len(c.Parts) {
+				// start with <tab>; no typing
+				case 0:
+					return carapace.ActionValuesDescribed(
+						cells...,
+					).Invoke(c).Prefix("//").Suffix("/").ToA().Style(
+						style.Of(style.Bold, style.Carapace.Highlight(1)))
+				// only a single / typed
+				case 1:
+					return carapace.ActionValuesDescribed(
+						cells...,
+					).Invoke(c).Prefix("/").Suffix("/").ToA()
+				// start typing cell
+				case 2:
+					return carapace.ActionValuesDescribed(
+						cells...,
+					).Invoke(c).Suffix("/").ToA().Style(
+						style.Carapace.Highlight(1))
+				// start typing block
+				case 3:
+					return carapace.ActionValuesDescribed(
+						blocks[c.Parts[2]]...,
+					).Invoke(c).Suffix("/").ToA().Style(
+						style.Carapace.Highlight(2))
+				// start typing target
+				case 4:
+					return carapace.ActionMultiParts(":", func(d carapace.Context) carapace.Action {
+						switch len(d.Parts) {
+						// start typing target
+						case 0:
+							return carapace.ActionValuesDescribed(
+								targets[c.Parts[2]][c.Parts[3]]...,
+							).Invoke(c).Suffix(":").ToA().Style(
+								style.Carapace.Highlight(3))
+							// start typing action
+						case 1:
+							return carapace.ActionValuesDescribed(
+								actions[c.Parts[2]][c.Parts[3]][d.Parts[0]]...,
+							).Invoke(c).ToA()
+						default:
+							return carapace.ActionValues()
+						}
+					})
+				default:
+					return carapace.ActionValues()
+				}
+			})
+
 		}),
 	)
 }
