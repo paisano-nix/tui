@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [0.1.1](https://github.com/paisano-nix/tui/compare/0.1.0..0.1.1) - 2023-04-18
+#### Bug Fixes
+- pass args along to the final invocation - ([83af50d](https://github.com/paisano-nix/tui/commit/83af50d6c058999094bfab633e0a50faedafa1d1)) - [@blaggacao](https://github.com/blaggacao)
+- cog config - ([507cd13](https://github.com/paisano-nix/tui/commit/507cd138a26807aac2be5b859c9000aad8283203)) - [@blaggacao](https://github.com/blaggacao)
+#### Miscellaneous Chores
+- add instructions to publish release notesd - ([ad7ba7a](https://github.com/paisano-nix/tui/commit/ad7ba7a1cbc0302103a25d1262c9eb55c0939223)) - [@blaggacao](https://github.com/blaggacao)
+
+- - -
+
 ## [0.1.0](https://github.com/tui/paisano-nix/compare/5eef783baf77df737e33e8265834ac8afd0b78df..0.1.0) - 2023-04-17
 #### Bug Fixes
 - polish the completion ux and add some bling - ([3859076](https://github.com/tui/paisano-nix/commit/38590763cbbdf3175cf62b1c693f83c449313e54)) - [@blaggacao](https://github.com/blaggacao)
