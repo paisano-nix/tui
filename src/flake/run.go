@@ -68,8 +68,9 @@ func (c *RunActionCmd) Build(nix string, args, extraArgs []string) (string, []st
 		"|| exit 1;",
 		"echo -e \"\x1b[1;35m----------"+strings.Repeat("-", len(actionPath))+"\x1b[0m\";",
 		"echo -e \"\x1b[1;35mExecuting \x1b[1;37m"+actionPath+"\x1b[0m\";",
+		"echo -e \"\x1b[1;35mWith args \x1b[1;37m"+fmt.Sprintf("%s", extraArgs)+"\x1b[0m\";",
 		"echo -e \"\x1b[1;35m----------"+strings.Repeat("-", len(actionPath))+"\x1b[0m\";",
-		"exec", actionPath,
+		"exec", actionPath, "\"${@}\"",
 	)
 	cmd := []string{bash, "-c", nix + " build " + strings.Join(args, " ")}
 	if extraArgs != nil && len(extraArgs) > 0 {
