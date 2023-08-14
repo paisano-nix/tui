@@ -18,27 +18,27 @@ type RunActionCmd struct {
 	Action string
 }
 
-func (c *RunActionCmd) Assemble(extraArgs []string) (string, string, []string, error) {
+func (c *RunActionCmd) Assemble(extraArgs []string) (string, []string, error) {
 	nix, err := getNix()
 	if err != nil {
-		return "", "", nil, err
+		return "", nil, err
 	}
 
 	currentSystem, err := getCurrentSystem()
 	if err != nil {
-		return "", "", nil, err
+		return "", nil, err
 	}
 
 	args, err := c.getArgs(currentSystem)
 	if err != nil {
-		return "", "", nil, err
+		return "", nil, err
 	}
 
 	if extraArgs != nil && len(extraArgs) > 0 {
 		args = append(args, "--")
 		args = append(args, extraArgs...)
 	}
-	return nix, "run", args, nil
+	return nix, args, nil
 }
 
 func (c *RunActionCmd) Build(nix string, args, extraArgs []string) (string, []string, error) {
@@ -83,7 +83,7 @@ func (c *RunActionCmd) Build(nix string, args, extraArgs []string) (string, []st
 
 func (c *RunActionCmd) Exec(extraArgs []string) error {
 
-	nix, _, args, err := c.Assemble(nil)
+	nix, args, err := c.Assemble(nil)
 	if err != nil {
 		return err
 	}

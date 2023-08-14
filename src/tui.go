@@ -156,8 +156,8 @@ func (m *Tui) SetInspect() (tea.Model, tea.Cmd) {
 			Target: i.r.TargetName(i.CellIdx, i.BlockIdx, i.TargetIdx),
 			Action: i.r.ActionTitle(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
 		}
-		_, sub, args, _ := cmd.Assemble(nil)
-		m.InspectAction = "nix " + sub + " " + strings.Join(args, " \\\n")
+		_, args, _ := cmd.Assemble(nil)
+		m.InspectAction = "nix build " + strings.Join(args, " \\\n")
 		return m, nil
 	} else {
 		m.InspectAction = ""
