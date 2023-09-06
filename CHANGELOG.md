@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [0.2.0](https://github.com/paisano-nix/tui/compare/0.1.1..0.2.0) - 2023-09-06
+#### Bug Fixes
+- quote action invokations as they may contain '.' - ([c2f752b](https://github.com/paisano-nix/tui/commit/c2f752b4f288468c2190367afad1d66bc959d4bd)) - [@blaggacao](https://github.com/blaggacao)
+- show nix build instead of nix run - ([1dd6997](https://github.com/paisano-nix/tui/commit/1dd69975f3cec30a2f4ababde28d7cf8c1a61b3d)) - [@blaggacao](https://github.com/blaggacao)
+
+- - -
+
 ## [0.1.1](https://github.com/paisano-nix/tui/compare/0.1.0..0.1.1) - 2023-04-18
 #### Bug Fixes
 - pass args along to the final invocation - ([83af50d](https://github.com/paisano-nix/tui/commit/83af50d6c058999094bfab633e0a50faedafa1d1)) - [@blaggacao](https://github.com/blaggacao)
