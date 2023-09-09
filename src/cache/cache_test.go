@@ -60,7 +60,7 @@ func TestBasic(t *testing.T) {
 	}
 }
 
-func TestGrowth(t *testing.T) {
+func BenchmarkGrowth(t *testing.B) {
 	dir, err := os.MkdirTemp("", "cachetest-")
 	if err != nil {
 		t.Fatal(err)
@@ -72,7 +72,9 @@ func TestGrowth(t *testing.T) {
 		t.Fatalf("Open: %v", err)
 	}
 
-	n := 10000
+	// previously 40s (2/3 of build time) to check for this on a laptop
+	// Now, run this with `go test -bench=.`
+	n := t.N
 	if testing.Short() {
 		n = 10
 	}
