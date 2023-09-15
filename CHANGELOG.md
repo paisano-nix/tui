@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v0.3.0](https://github.com/divnix/hive/compare/v0.2.0..v0.3.0) - 2023-09-15
+#### Miscellaneous Chores
+- adopt local cell best practices - ([4874308](https://github.com/divnix/hive/commit/48743087ad1c61d9cb84551ace2955be54bf53d4)) - David Arnold
+
+- - -
+
 ## [0.2.0](https://github.com/paisano-nix/tui/compare/0.1.1..0.2.0) - 2023-09-06
 #### Bug Fixes
 - quote action invokations as they may contain '.' - ([c2f752b](https://github.com/paisano-nix/tui/commit/c2f752b4f288468c2190367afad1d66bc959d4bd)) - [@blaggacao](https://github.com/blaggacao)
