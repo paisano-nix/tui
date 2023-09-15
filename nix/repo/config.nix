@@ -38,8 +38,8 @@ in {
     data = {
       changelog = {
         remote = "github.com";
-        repository = "hive";
-        owner = "divnix";
+        repository = "tui";
+        owner = "paisano-nix";
       };
       post_bump_hooks = dmerge.append [
         "echo Go to and post: https://discourse.nixos.org/t/paisano-tui-cli/27351"
