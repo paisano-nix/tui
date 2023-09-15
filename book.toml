@@ -5,7 +5,7 @@ src = "docs"
 title = "Paisano TUI Book"
 
 [build]
-build-dir = "docs/build"
+build-dir = "docs/book"
 
 [output]
 [output.html]
@@ -14,8 +14,7 @@ additional-css = ["./mdbook-paisano-preprocessor.css"]
 [output.linkcheck]
 
 [preprocessor.paisano-preprocessor]
-assets_version = "0"
-command = "mdbook-paisano-preprocessor"
+before = ["links"]
 registry = ".#__std.init"
 
 [[preprocessor.paisano-preprocessor.multi]]
