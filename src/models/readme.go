@@ -55,9 +55,9 @@ var (
 )
 
 type ReadmeModel struct {
-	TargetHelp markdown.Bubble
-	CellHelp   markdown.Bubble
-	BlockHelp  markdown.Bubble
+	TargetHelp markdown.Model
+	CellHelp   markdown.Model
+	BlockHelp  markdown.Model
 	Cell       string
 	Block      string
 	Target     string

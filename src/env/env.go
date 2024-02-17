@@ -30,7 +30,7 @@ func SetEnv() {
 	}
 }
 
-func GetStateActionPath() (string, error) { return spec.StateFile("last-action") }
+func GetStateActionPath() (string, error) { return spec.DataFile("last-action") }
 func GetProjectMetadataCacheDir() (string, error) {
 	path, err := spec.CacheFile("metadata")
 	if err != nil {
