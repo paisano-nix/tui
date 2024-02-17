@@ -17,7 +17,7 @@ in {
 
     src = inputs.self + /src;
 
-    vendorHash = "sha256-ja0nFWdWqieq8m6cSKAhE1ibeN0fODDCC837jw0eCnE=";
+    vendorHash = "sha256-S1oPselqHRIPcqDSsvdIkCwu1siQGRDHOkxWtYwa+g4=";
 
     nativeBuildInputs = [nixpkgs.installShellFiles];
 
