@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v0.4.0](https://github.com/paisano-nix/tui/compare/v0.3.0..v0.4.0) - 2024-02-17
+#### Miscellaneous Chores
+- update prj-spec to latest version - ([d4007c2](https://github.com/paisano-nix/tui/commit/d4007c245a816c855976ff0ccf94233024ce64cd)) - David Arnold
+- fix cocogitto config - ([4cfe6c1](https://github.com/paisano-nix/tui/commit/4cfe6c1ceef85c413a31c9d4fdfd42679fe3e92b)) - David Arnold
+
+- - -
+
 ## [v0.3.0](https://github.com/divnix/hive/compare/v0.2.0..v0.3.0) - 2023-09-15
 #### Miscellaneous Chores
 - adopt local cell best practices - ([4874308](https://github.com/divnix/hive/commit/48743087ad1c61d9cb84551ace2955be54bf53d4)) - David Arnold
