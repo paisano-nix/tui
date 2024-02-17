@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v0.4.1](https://github.com/paisano-nix/tui/compare/v0.4.0..v0.4.1) - 2024-02-17
+#### Bug Fixes
+- std data for cog patch release flow - ([37f06fa](https://github.com/paisano-nix/tui/commit/37f06fa0846119ae2b15ffcb2eecb1462c24f894)) - David Arnold
+- vendor sha - ([8121467](https://github.com/paisano-nix/tui/commit/8121467cc676d9887671d7533c9687f53e92c241)) - David Arnold
+#### Miscellaneous Chores
+- update std to see if cog data has been fixed - ([8d1c341](https://github.com/paisano-nix/tui/commit/8d1c3412f49a1212846d70ff97b49929f357c64e)) - David Arnold
+- remove benchmark-like test for faster build time - ([ccfcaec](https://github.com/paisano-nix/tui/commit/ccfcaec93068eac196e4222ebe53b3599c7be071)) - pegasust
+
+- - -
+
 ## [v0.4.0](https://github.com/paisano-nix/tui/compare/v0.3.0..v0.4.0) - 2024-02-17
 #### Miscellaneous Chores
 - update prj-spec to latest version - ([d4007c2](https://github.com/paisano-nix/tui/commit/d4007c245a816c855976ff0ccf94233024ce64cd)) - David Arnold
