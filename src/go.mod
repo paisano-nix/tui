@@ -11,6 +11,7 @@ require (
 	github.com/google/renameio/v2 v2.0.0
 	github.com/hymkor/go-lazy v0.4.0
 	github.com/knipferrc/teacup v0.3.1
+	github.com/numtide/prj-spec/contrib/go v0.0.0-00010101000000-000000000000
 	github.com/oriser/regroup v0.0.0-20230527212431-1b00c9bdbc5b
 	github.com/rogpeppe/go-internal v1.12.0
 	github.com/rsteube/carapace v0.50.0
@@ -40,7 +41,6 @@ require (
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
-	github.com/numtide/prj-spec/contrib/go v0.0.0-00010101000000-000000000000 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rsteube/carapace-shlex v0.1.2 // indirect
