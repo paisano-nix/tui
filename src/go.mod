@@ -1,6 +1,8 @@
 module github.com/paisano-nix/paisano
 
-go 1.18
+go 1.21
+
+toolchain go1.21.6
 
 require (
 	github.com/TylerBrock/colorjson v0.0.0-20200706003622-8a50f05110d2
