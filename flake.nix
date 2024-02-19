@@ -1,7 +1,7 @@
 {
   description = "Paisano's TUI/CLI companion";
 
-  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
 
   inputs.std = {
     url = "github:divnix/std";
