@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v0.4.2](https://github.com/paisano-nix/tui/compare/v0.4.1..v0.4.2) - 2024-02-19
+#### Build system
+- fix with go mod tidy - ([d59f7a4](https://github.com/paisano-nix/tui/commit/d59f7a4d05e42216c90687d4beb17af39058b136)) - David Arnold
+
+- - -
+
 ## [v0.4.1](https://github.com/paisano-nix/tui/compare/v0.4.0..v0.4.1) - 2024-02-17
 #### Bug Fixes
 - std data for cog patch release flow - ([37f06fa](https://github.com/paisano-nix/tui/commit/37f06fa0846119ae2b15ffcb2eecb1462c24f894)) - David Arnold
