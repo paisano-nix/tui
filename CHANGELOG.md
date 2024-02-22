@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v0.5.0](https://github.com/paisano-nix/tui/compare/v0.4.3..v0.5.0) - 2024-02-22
+#### Build system
+- bump version of std tooling - ([01a2ab0](https://github.com/paisano-nix/tui/commit/01a2ab07b8fdeea407d16b376f469fdd297126d4)) - David Arnold
+#### Continuous Integration
+- update nix version in ci - ([6512f8c](https://github.com/paisano-nix/tui/commit/6512f8c755cbd20b7ac3a55e0126a0b5a783257b)) - David Arnold
+#### Features
+- improve cli/tui ouput - ([2fff01a](https://github.com/paisano-nix/tui/commit/2fff01a54bb4fae0daee3921b4360fdc695570c4)) - David Arnold
+
+- - -
+
 ## [v0.4.3](https://github.com/paisano-nix/tui/compare/v0.4.2..v0.4.3) - 2024-02-19
 #### Build system
 - bump inpuuts - ([7fe73ab](https://github.com/paisano-nix/tui/commit/7fe73abac6e2303548a6b1617ae6257d655a9b69)) - David Arnold
