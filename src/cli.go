@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 	"text/tabwriter"
 
 	"github.com/oriser/regroup"
@@ -54,11 +55,13 @@ For more instructions, see: https://rsteube.github.io/carapace/carapace/gen/hidd
 			return err
 		}
 		command := flake.RunActionCmd{
-			System: forSystem,
-			Cell:   s.Cell,
-			Block:  s.Block,
-			Target: s.Target,
-			Action: s.Action}
+			ShowCmdStr: false,
+			CmdStr:     strings.Join(args[:], " "),
+			System:     forSystem,
+			Cell:       s.Cell,
+			Block:      s.Block,
+			Target:     s.Target,
+			Action:     s.Action}
 		if err := command.Exec(args[1:]); err != nil {
 			return err
 		}
