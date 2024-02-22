@@ -237,16 +237,16 @@
     "paisano-tui": {
       "flake": false,
       "locked": {
-        "lastModified": 1708336955,
-        "narHash": "sha256-+pQNeuDe45DMxSNhSrgvivq2u+AuJmhSQ/xEYoezaqM=",
+        "lastModified": 1708353388,
+        "narHash": "sha256-RzNQ5P4fdYYAXb5Bmazh5KLjlbeCtyMX7WNiOFsqN68=",
         "owner": "paisano-nix",
         "repo": "tui",
-        "rev": "723a8500840392544889df7a14d0ec1dcecb7f33",
+        "rev": "db1f97e3d5213e66e5c1251d23d1401d7068b5f5",
         "type": "github"
       },
       "original": {
         "owner": "paisano-nix",
-        "ref": "v0.4.2",
+        "ref": "v0.4.3",
         "repo": "tui",
         "type": "github"
       }
@@ -300,11 +300,11 @@
         "yants": "yants"
       },
       "locked": {
-        "lastModified": 1708337905,
-        "narHash": "sha256-myvoawm4UjPybcEYM7yZWykPusui/M6E9diVxMPH8VM=",
+        "lastModified": 1708473028,
+        "narHash": "sha256-z5/UbogAnRVlyT2qZPqUUb5yPLgGxO+iWAy4pxBjDAQ=",
         "owner": "divnix",
         "repo": "std",
-        "rev": "e31db1bc904b8242cc66d71fa727c323e6179f43",
+        "rev": "151ecce8eecc8d0fd15d9fcd75d59a45ebdcd7ee",
         "type": "github"
       },
       "original": {
