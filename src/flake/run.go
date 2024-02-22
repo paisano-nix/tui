@@ -1,6 +1,7 @@
 package flake
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -11,11 +12,14 @@ import (
 )
 
 type RunActionCmd struct {
-	System string
-	Cell   string
-	Block  string
-	Target string
-	Action string
+	ShowCmdStr   bool
+	CmdStr       string
+	System       string
+	Cell         string
+	Block        string
+	Target       string
+	Action       string
+	RequiresArgs *bool
 }
 
 func (c *RunActionCmd) Assemble(extraArgs []string) (string, []string, error) {
@@ -42,6 +46,9 @@ func (c *RunActionCmd) Assemble(extraArgs []string) (string, []string, error) {
 }
 
 func (c *RunActionCmd) Build(nix string, args, extraArgs []string) (string, []string, error) {
+	if c.RequiresArgs != nil && *c.RequiresArgs == true && len(extraArgs) == 0 {
+		return "", nil, errors.New(c.CmdStr + " - requires on or more arguments; run from command line")
+	}
 	bash, err := exec.LookPath("bash")
 	if err != nil {
 		return "", nil, err
@@ -58,6 +65,12 @@ func (c *RunActionCmd) Build(nix string, args, extraArgs []string) (string, []st
 	if err != nil {
 		return "", nil, err
 	}
+	printout := ""
+	if c.ShowCmdStr {
+		printout += "echo -e \"\x1b[1;37m------------" + strings.Repeat("-", len(c.CmdStr)) + "-\x1b[0m\";"
+		printout += "echo -e \"\x1b[1;37m Executing: \x1b[1;32m" + c.CmdStr + "\x1b[0m\";"
+		printout += "echo -e \"\x1b[1;37m------------" + strings.Repeat("-", len(c.CmdStr)) + "-\x1b[0m\";"
+	}
 	args = append(args, "--out-link", actionPath)
 	args = append(args,
 		"--no-update-lock-file",
@@ -66,10 +79,7 @@ func (c *RunActionCmd) Build(nix string, args, extraArgs []string) (string, []st
 		"--accept-flake-config",
 		"--builders-use-substitutes",
 		"|| exit 1;",
-		"echo -e \"\x1b[1;35m----------"+strings.Repeat("-", len(actionPath))+"\x1b[0m\";",
-		"echo -e \"\x1b[1;35mExecuting \x1b[1;37m"+actionPath+"\x1b[0m\";",
-		"echo -e \"\x1b[1;35mWith args \x1b[1;37m"+fmt.Sprintf("%s", extraArgs)+"\x1b[0m\";",
-		"echo -e \"\x1b[1;35m----------"+strings.Repeat("-", len(actionPath))+"\x1b[0m\";",
+		printout,
 		"exec", actionPath, "\"${@}\"",
 	)
 	cmd := []string{bash, "-c", nix + " build " + strings.Join(args, " ")}

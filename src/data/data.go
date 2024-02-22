@@ -31,8 +31,9 @@ type Block struct {
 }
 
 type Action struct {
-	Name  string `json:"name"`
-	Descr string `json:"description"`
+	Name         string `json:"name"`
+	Descr        string `json:"description"`
+	RequiresArgs *bool  `json:"requiresArgs,omitempty"`
 }
 
 func (a Action) Title() string       { return a.Name }
@@ -80,6 +81,11 @@ func (r *Root) ActionDescription(ci, bi, ti, ai int) string {
 	_, _, t := r.Select(ci, bi, ti)
 	a := t.Actions[ai]
 	return a.Description()
+}
+func (r *Root) ActionRequiresArgs(ci, bi, ti, ai int) *bool {
+	_, _, t := r.Select(ci, bi, ti)
+	a := t.Actions[ai]
+	return a.RequiresArgs
 }
 
 func (r *Root) TargetTitle(ci, bi, ti int) string {

@@ -150,11 +150,14 @@ func (m *Tui) SetTitle() {
 func (m *Tui) SetInspect() (tea.Model, tea.Cmd) {
 	if i, ok := m.Right.SelectedItem().(*ActionItem); ok {
 		cmd := flake.RunActionCmd{
-			System: "", // unlike in the CLI, we don't implement to specifiy system in the TUI
-			Cell:   i.r.CellName(i.CellIdx, i.BlockIdx, i.TargetIdx),
-			Block:  i.r.BlockName(i.CellIdx, i.BlockIdx, i.TargetIdx),
-			Target: i.r.TargetName(i.CellIdx, i.BlockIdx, i.TargetIdx),
-			Action: i.r.ActionTitle(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
+			ShowCmdStr:   false,
+			CmdStr:       "",
+			System:       "", // unlike in the CLI, we don't implement to specifiy system in the TUI
+			Cell:         i.r.CellName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+			Block:        i.r.BlockName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+			Target:       i.r.TargetName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+			Action:       i.r.ActionTitle(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
+			RequiresArgs: i.r.ActionRequiresArgs(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
 		}
 		_, args, _ := cmd.Assemble(nil)
 		m.InspectAction = "nix build " + strings.Join(args, " \\\n")
@@ -287,11 +290,17 @@ func (m *Tui) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case m.Focus == Right && key.Matches(msg, actionKeys.Exec):
 			if i, ok := m.Right.SelectedItem().(*ActionItem); ok {
 				m.ExecveCommand = &flake.RunActionCmd{
-					System: "", // unlike in the CLI, we don't implement to specifiy system in the TUI
-					Cell:   i.r.CellName(i.CellIdx, i.BlockIdx, i.TargetIdx),
-					Block:  i.r.BlockName(i.CellIdx, i.BlockIdx, i.TargetIdx),
-					Target: i.r.TargetName(i.CellIdx, i.BlockIdx, i.TargetIdx),
-					Action: i.r.ActionTitle(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
+					ShowCmdStr: true,
+					CmdStr: cmdTemplate(
+						m.Left.SelectedItem().(*TargetItem).Title(),
+						i.Title(),
+					),
+					System:       "", // unlike in the CLI, we don't implement to specify system in the TUI
+					Cell:         i.r.CellName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+					Block:        i.r.BlockName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+					Target:       i.r.TargetName(i.CellIdx, i.BlockIdx, i.TargetIdx),
+					Action:       i.r.ActionTitle(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
+					RequiresArgs: i.r.ActionRequiresArgs(i.CellIdx, i.BlockIdx, i.TargetIdx, i.ActionIdx),
 				}
 				return m, tea.Quit
 			}
